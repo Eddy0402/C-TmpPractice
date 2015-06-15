@@ -45,81 +45,28 @@ struct GenUnit_impl {
 template <class Scale, class BaseUnit, int ScaleToOriginal>
 using GenUnit = typename GenUnit_impl<Scale, BaseUnit, ScaleToOriginal>::type;
 
+#define MAKE_ONE(BASE_UNIT, BASE_UNIT_SUFFIX, SCALE, SCALE_TO_ORIGINAL)             \
+    boost::units::quantity<GenUnit<Scale_##SCALE, boost::units::si::BASE_UNIT, \
+                                   SCALE_TO_ORIGINAL>> inline            \
+    operator"" _##SCALE##BASE_UNIT_SUFFIX(long double in)                    \
+    {                                                                    \
+        return boost::units::quantity<                                   \
+            GenUnit<Scale_##SCALE, boost::units::si::BASE_UNIT,                \
+                    SCALE_TO_ORIGINAL>>::from_value(in);                 \
+    }                                                                    \
+
 #define MAKE(BASE_UNIT, BASE_UNIT_SUFFIX, SCALE_TO_ORIGINAL)             \
-    boost::units::quantity<GenUnit<Scale_k, boost::units::si::BASE_UNIT, \
-                                   SCALE_TO_ORIGINAL>> inline            \
-    operator"" _##k##BASE_UNIT_SUFFIX(long double in)                    \
-    {                                                                    \
-        return boost::units::quantity<                                   \
-            GenUnit<Scale_k, boost::units::si::BASE_UNIT,                \
-                    SCALE_TO_ORIGINAL>>::from_value(in);                 \
-    }                                                                    \
-    boost::units::quantity<GenUnit<Scale_M, boost::units::si::BASE_UNIT, \
-                                   SCALE_TO_ORIGINAL>> inline            \
-    operator"" _##M##BASE_UNIT_SUFFIX(long double in)                    \
-    {                                                                    \
-        return boost::units::quantity<                                   \
-            GenUnit<Scale_M, boost::units::si::BASE_UNIT,                \
-                    SCALE_TO_ORIGINAL>>::from_value(in);                 \
-    }                                                                    \
-    boost::units::quantity<GenUnit<Scale_G, boost::units::si::BASE_UNIT, \
-                                   SCALE_TO_ORIGINAL>> inline            \
-    operator"" _##G##BASE_UNIT_SUFFIX(long double in)                    \
-    {                                                                    \
-        return boost::units::quantity<                                   \
-            GenUnit<Scale_G, boost::units::si::BASE_UNIT,                \
-                    SCALE_TO_ORIGINAL>>::from_value(in);                 \
-    }                                                                    \
-    boost::units::quantity<GenUnit<Scale_T, boost::units::si::BASE_UNIT, \
-                                   SCALE_TO_ORIGINAL>> inline            \
-    operator"" _##T##BASE_UNIT_SUFFIX(long double in)                    \
-    {                                                                    \
-        return boost::units::quantity<                                   \
-            GenUnit<Scale_T, boost::units::si::BASE_UNIT,                \
-                    SCALE_TO_ORIGINAL>>::from_value(in);                 \
-    }                                                                    \
+    MAKE_ONE(BASE_UNIT, BASE_UNIT_SUFFIX, k, SCALE_TO_ORIGINAL)          \
+    MAKE_ONE(BASE_UNIT, BASE_UNIT_SUFFIX, M, SCALE_TO_ORIGINAL)          \
+    MAKE_ONE(BASE_UNIT, BASE_UNIT_SUFFIX, G, SCALE_TO_ORIGINAL)          \
+    MAKE_ONE(BASE_UNIT, BASE_UNIT_SUFFIX, T, SCALE_TO_ORIGINAL)          \
+    MAKE_ONE(BASE_UNIT, BASE_UNIT_SUFFIX,  , SCALE_TO_ORIGINAL)          \
+    MAKE_ONE(BASE_UNIT, BASE_UNIT_SUFFIX, m, SCALE_TO_ORIGINAL)          \
+    MAKE_ONE(BASE_UNIT, BASE_UNIT_SUFFIX, u, SCALE_TO_ORIGINAL)          \
+    MAKE_ONE(BASE_UNIT, BASE_UNIT_SUFFIX, p, SCALE_TO_ORIGINAL)          \
+    MAKE_ONE(BASE_UNIT, BASE_UNIT_SUFFIX, f, SCALE_TO_ORIGINAL)          \
                                                                          \
-    boost::units::quantity<GenUnit<Scale_, boost::units::si::BASE_UNIT,  \
-                                   SCALE_TO_ORIGINAL>> inline            \
-    operator"" _##BASE_UNIT_SUFFIX(long double in)                       \
-    {                                                                    \
-        return boost::units::quantity<                                   \
-            GenUnit<Scale_, boost::units::si::BASE_UNIT,                 \
-                    SCALE_TO_ORIGINAL>>::from_value(in);                 \
-    }                                                                    \
-                                                                         \
-    boost::units::quantity<GenUnit<Scale_m, boost::units::si::BASE_UNIT, \
-                                   SCALE_TO_ORIGINAL>> inline            \
-    operator"" _##m##BASE_UNIT_SUFFIX(long double in)                    \
-    {                                                                    \
-        return boost::units::quantity<                                   \
-            GenUnit<Scale_m, boost::units::si::BASE_UNIT,                \
-                    SCALE_TO_ORIGINAL>>::from_value(in);                 \
-    }                                                                    \
-    boost::units::quantity<GenUnit<Scale_u, boost::units::si::BASE_UNIT, \
-                                   SCALE_TO_ORIGINAL>> inline            \
-    operator"" _##u##BASE_UNIT_SUFFIX(long double in)                    \
-    {                                                                    \
-        return boost::units::quantity<                                   \
-            GenUnit<Scale_u, boost::units::si::BASE_UNIT,                \
-                    SCALE_TO_ORIGINAL>>::from_value(in);                 \
-    }                                                                    \
-    boost::units::quantity<GenUnit<Scale_p, boost::units::si::BASE_UNIT, \
-                                   SCALE_TO_ORIGINAL>> inline            \
-    operator"" _##p##BASE_UNIT_SUFFIX(long double in)                    \
-    {                                                                    \
-        return boost::units::quantity<                                   \
-            GenUnit<Scale_p, boost::units::si::BASE_UNIT,                \
-                    SCALE_TO_ORIGINAL>>::from_value(in);                 \
-    }                                                                    \
-    boost::units::quantity<GenUnit<Scale_f, boost::units::si::BASE_UNIT, \
-                                   SCALE_TO_ORIGINAL>> inline            \
-    operator"" _##f##BASE_UNIT_SUFFIX(long double in)                    \
-    {                                                                    \
-        return boost::units::quantity<                                   \
-            GenUnit<Scale_f, boost::units::si::BASE_UNIT,                \
-                    SCALE_TO_ORIGINAL>>::from_value(in);                 \
-    }
+
 MAKE(length, m, 0)
 MAKE(mass, g, 3)
 MAKE(time, s, 0)
