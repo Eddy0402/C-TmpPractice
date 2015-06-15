@@ -54,7 +54,10 @@ precompile: $(PRECOMPILE_HEADER)
 demangle: $(PRGGRAM_NAME)
 	@./bin/Main | c++filt --types
 
-.PHONY: all clean precompile demangle
+run: $(PRGGRAM_NAME)
+	@./bin/Main
+
+.PHONY: all clean precompile demangle run
 
 clean:
 	@echo "RM	$(PRECOMPILE_HEADER)"
