@@ -10,6 +10,7 @@
 #include <boost/mpl/map.hpp>
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/at.hpp>
+#include <iostream>
 
 class Scale_k;
 class Scale_M;
@@ -68,5 +69,17 @@ using GenUnit = typename GenUnit_impl<Scale, BaseUnit, ScaleToOriginal>::type;
 MAKE(length, m, 0)
 MAKE(mass, g, 3)
 MAKE(time, s, 0)
+
+inline void UnitTest()
+{
+    auto m = 1.0_kg;
+    auto t = 32.0_ms;
+    auto l = 12.0_km;
+    std::cout << m << std::endl;
+    std::cout << t << std::endl;
+    std::cout << l << std::endl;
+    std::cout << m* l* l / t / t << std::endl;
+    std::cout << 1.0_kg * 1.0_mm * 1.0_km / 1.0_ms / 1.0_ms << std::endl;
+}
 
 #endif
